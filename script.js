@@ -27,27 +27,27 @@ function getHumanChoice() {
 }
 
 function playRound(computerChoice, humanChoice) {
-  humanMove.textContent = "You play " + humanChoice;
-  cpuMove.textContent = "CPU plays " + computerChoice;
+  humanMove.textContent = humanChoice;
+  cpuMove.textContent = computerChoice;
   if (
     (computerChoice == "rock" && humanChoice == "scissors") ||
     (computerChoice == "scissors" && humanChoice == "paper") ||
     (computerChoice == "paper" && humanChoice == "rock")
   ) {
-    outcomeHeading.textContent =
-      "You lost! " + computerChoice + " beats " + humanChoice;
+    // outcomeHeading.textContent =
+    //   "You lost! " + computerChoice + " beats " + humanChoice;
     return "loss";
   } else if (
     (humanChoice == "rock" && computerChoice == "scissors") ||
     (humanChoice == "scissors" && computerChoice == "paper") ||
     (humanChoice == "paper" && computerChoice == "rock")
   ) {
-    outcomeHeading.textContent =
-      "You won! " + humanChoice + " beats " + computerChoice;
+    // outcomeHeading.textContent =
+    //   "You won! " + humanChoice + " beats " + computerChoice;
     return "win";
   } else {
-    outcomeHeading.textContent =
-      "You tied! " + humanChoice + " vs. " + computerChoice;
+    // outcomeHeading.textContent =
+    //   "You tied! " + humanChoice + " vs. " + computerChoice;
     return "tie";
   }
 }
@@ -59,42 +59,77 @@ function updateScore(result) {
   } else if (result == "loss") {
     computerScore++;
     cpuScoreSpan.textContent = computerScore;
+  } else if (result == "reset") {
+    humanScore = 0;
+    computerScore = 0;
+    humanScoreSpan.textContent = humanScore;
+    cpuScoreSpan.textContent = computerScore;
   }
   checkEndgame();
 }
 
 function checkEndgame() {
   if (computerScore == 5 || humanScore == 5) {
-    // Remove buttons
-    rockButton.remove();
-    paperButton.remove();
-    scissorsButton.remove();
-
+    clearControlPanel();
+    drawReset();
+    // Add smilies
     if (humanScore == 5) {
-      outcomeHeading.textContent = "Game over, you won!";
+      humanResult.textContent = ":)";
+      cpuResult.textContent = ":(";
     } else if (computerScore == 5) {
-      outcomeHeading.textContent = "Game over, you lost!";
+      cpuResult.textContent = ":)";
+      humanResult.textContent = ":(";
     }
   }
 }
 
-const rockButton = document.getElementById("rockButton");
-rockButton.addEventListener("click", () => {
-  updateScore(playRound(getComputerChoice(), "rock"));
-});
+function clearControlPanel() {
+  while (controlPanel.firstChild) {
+    controlPanel.removeChild(controlPanel.firstChild);
+  }
+}
 
-const paperButton = document.getElementById("paperButton");
-paperButton.addEventListener("click", () => {
-  updateScore(playRound(getComputerChoice(), "paper"));
-});
+function drawGame() {
+  const rockButton = document.createElement("button");
+  rockButton.textContent = "Rock";
+  rockButton.addEventListener("click", () => {
+    updateScore(playRound(getComputerChoice(), "rock"));
+  });
 
-const scissorsButton = document.getElementById("scissorsButton");
-scissorsButton.addEventListener("click", () => {
-  updateScore(playRound(getComputerChoice(), "scissors"));
-});
+  const paperButton = document.createElement("button");
+  paperButton.textContent = "Paper";
+  paperButton.addEventListener("click", () => {
+    updateScore(playRound(getComputerChoice(), "paper"));
+  });
+
+  const scissorsButton = document.createElement("button");
+  scissorsButton.textContent = "Scissors";
+  scissorsButton.addEventListener("click", () => {
+    updateScore(playRound(getComputerChoice(), "scissors"));
+  });
+
+  controlPanel.appendChild(rockButton);
+  controlPanel.appendChild(paperButton);
+  controlPanel.appendChild(scissorsButton);
+}
+
+function drawReset() {
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "Reset";
+  controlPanel.appendChild(resetButton);
+  resetButton.addEventListener("click", () => {
+    humanResult.textContent = "";
+    cpuResult.textContent = "";
+    clearControlPanel();
+    updateScore("reset");
+    drawGame();
+  });
+}
 
 let computerScore = 0;
 let humanScore = 0;
+
+const controlPanel = document.getElementById("controlPanel");
 
 const humanMove = document.getElementById("humanMove");
 const cpuMove = document.getElementById("cpuMove");
@@ -104,3 +139,8 @@ const humanScoreSpan = document.getElementById("humanScoreSpan");
 humanScoreSpan.textContent = humanScore;
 const cpuScoreSpan = document.getElementById("cpuScoreSpan");
 cpuScoreSpan.textContent = computerScore;
+
+const humanResult = document.getElementById("humanResult");
+const cpuResult = document.getElementById("cpuResult");
+
+drawGame();
