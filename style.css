@@ -1,13 +1,55 @@
-body {
+/* body {
   border: 2px solid black;
   justify-self: center;
+  height: 300px;
+  width: 300px;
+} */
+
+main {
+  border: 2px solid black;
+  justify-self: center;
+  height: 300px;
+  width: 300px;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
 }
 
+main > * {
+  border: 1px dotted red;
+}
+
+#controlPanel,
 #moveDisplayDiv,
-#scoreboardDiv,
 #resultsDiv {
   display: flex;
   justify-content: space-evenly;
 }
 
+#controlPanel,
+#moveDisplayDiv {
+  gap: 10px;
+  padding: 10px;
+}
 
+#controlPanel > *,
+#moveDisplayDiv > * {
+  flex: 1;
+}
+#moveDisplayDiv > * {
+  background-color: rgb(193, 193, 193);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#scoreboardDiv {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#scoreboardDiv > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
