@@ -34,21 +34,34 @@ function playRound(computerChoice, humanChoice) {
     (computerChoice == "scissors" && humanChoice == "paper") ||
     (computerChoice == "paper" && humanChoice == "rock")
   ) {
-    // outcomeHeading.textContent =
-    //   "You lost! " + computerChoice + " beats " + humanChoice;
+    updateChoiceDisplay("loss");
     return "loss";
   } else if (
     (humanChoice == "rock" && computerChoice == "scissors") ||
     (humanChoice == "scissors" && computerChoice == "paper") ||
     (humanChoice == "paper" && computerChoice == "rock")
   ) {
-    // outcomeHeading.textContent =
-    //   "You won! " + humanChoice + " beats " + computerChoice;
+    updateChoiceDisplay("win");
+
     return "win";
   } else {
-    // outcomeHeading.textContent =
-    //   "You tied! " + humanChoice + " vs. " + computerChoice;
+    updateChoiceDisplay("tie");
     return "tie";
+  }
+}
+
+function updateChoiceDisplay(outcome) {
+  humanMove.className = "";
+  cpuMove.className = "";
+  if (outcome == "loss") {
+    humanMove.classList.add("roundLoserBG");
+    cpuMove.classList.add("roundWinnerBG");
+  } else if (outcome == "win") {
+    humanMove.classList.add("roundWinnerBG");
+    cpuMove.classList.add("roundLoserBG");
+  } else if (outcome == "tie") {
+    humanMove.classList.add("roundTieBG");
+    cpuMove.classList.add("roundTieBG");
   }
 }
 
@@ -118,6 +131,10 @@ function drawReset() {
   resetButton.textContent = "Reset";
   controlPanel.appendChild(resetButton);
   resetButton.addEventListener("click", () => {
+    humanMove.textContent = "";
+    cpuMove.textContent = "";
+    humanMove.className = "";
+    cpuMove.className = "";
     humanResult.textContent = "";
     cpuResult.textContent = "";
     clearControlPanel();
