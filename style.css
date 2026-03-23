@@ -54,6 +54,20 @@ main > * {
   align-items: center;
 }
 
+#humanScoreDiv,
+#cpuScoreDiv {
+  display: flex;
+  border: 1px solid black;
+}
+
+#humanScoreDiv > div,
+#cpuScoreDiv > div {
+  height: 10px;
+  width: 10px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
 .roundWinnerBG {
   background-color: rgb(158, 254, 158);
 }
@@ -64,4 +78,8 @@ main > * {
 
 .roundTieBG {
   background-color: rgb(255, 238, 153);
+}
+
+.roundPointMark {
+  background-color: rgb(122, 122, 255);
 }

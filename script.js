@@ -68,15 +68,21 @@ function updateChoiceDisplay(outcome) {
 function updateScore(result) {
   if (result == "win") {
     humanScore++;
-    humanScoreSpan.textContent = humanScore;
+    // humanScoreSpan.textContent = humanScore;
+    humanScoreDiv.children[humanScore - 1].classList.add("roundPointMark");
   } else if (result == "loss") {
     computerScore++;
-    cpuScoreSpan.textContent = computerScore;
+    // cpuScoreSpan.textContent = computerScore;
+    cpuScoreDiv.children[computerScore - 1].classList.add("roundPointMark");
   } else if (result == "reset") {
     humanScore = 0;
     computerScore = 0;
-    humanScoreSpan.textContent = humanScore;
-    cpuScoreSpan.textContent = computerScore;
+    for (let i = 0; i < humanScoreDiv.children.length; i++) {
+      humanScoreDiv.children[i].className = "";
+    }
+    for (let i = 0; i < cpuScoreDiv.children.length; i++) {
+      cpuScoreDiv.children[i].className = "";
+    }
   }
   checkEndgame();
 }
@@ -152,12 +158,14 @@ const humanMove = document.getElementById("humanMove");
 const cpuMove = document.getElementById("cpuMove");
 const outcomeHeading = document.getElementById("outcomeHeading");
 
-const humanScoreSpan = document.getElementById("humanScoreSpan");
-humanScoreSpan.textContent = humanScore;
-const cpuScoreSpan = document.getElementById("cpuScoreSpan");
-cpuScoreSpan.textContent = computerScore;
+// const humanScoreSpan = document.getElementById("humanScoreSpan");
+// humanScoreSpan.textContent = humanScore;
+// const cpuScoreSpan = document.getElementById("cpuScoreSpan");
+// cpuScoreSpan.textContent = computerScore;
 
 const humanResult = document.getElementById("humanResult");
 const cpuResult = document.getElementById("cpuResult");
+const humanScoreDiv = document.getElementById("humanScoreDiv");
+const cpuScoreDiv = document.getElementById("cpuScoreDiv");
 
 drawGame();
