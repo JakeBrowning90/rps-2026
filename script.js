@@ -10,69 +10,42 @@ function getComputerChoice() {
   }
 }
 
-function getHumanChoice() {
-  let pick = parseInt(
-    prompt("Input 0 for rock, 1 for paper, or 2 for scissors:"),
-  );
-  //   let pick = Math.floor(Math.random() * 3);
-  // validate and sanitize input
-  switch (pick) {
-    case 0:
-      return "rock";
-    case 1:
-      return "paper";
-    case 2:
-      return "scissors";
-  }
-}
-
 function playRound(computerChoice, humanChoice) {
-  humanMove.textContent = humanChoice;
-  cpuMove.textContent = computerChoice;
+  // Get corresponding icon
+  humanMove.textContent = getMoveIcon(humanChoice);
+  cpuMove.textContent = getMoveIcon(computerChoice);
   if (
     (computerChoice == "rock" && humanChoice == "scissors") ||
     (computerChoice == "scissors" && humanChoice == "paper") ||
     (computerChoice == "paper" && humanChoice == "rock")
   ) {
-    updateChoiceDisplay("loss");
     return "loss";
   } else if (
     (humanChoice == "rock" && computerChoice == "scissors") ||
     (humanChoice == "scissors" && computerChoice == "paper") ||
     (humanChoice == "paper" && computerChoice == "rock")
   ) {
-    updateChoiceDisplay("win");
-
     return "win";
   } else {
-    updateChoiceDisplay("tie");
     return "tie";
   }
 }
-
-function updateChoiceDisplay(outcome) {
-  humanMove.className = "";
-  cpuMove.className = "";
-  if (outcome == "loss") {
-    humanMove.classList.add("roundLoserBG");
-    cpuMove.classList.add("roundWinnerBG");
-  } else if (outcome == "win") {
-    humanMove.classList.add("roundWinnerBG");
-    cpuMove.classList.add("roundLoserBG");
-  } else if (outcome == "tie") {
-    humanMove.classList.add("roundTieBG");
-    cpuMove.classList.add("roundTieBG");
+function getMoveIcon(playerMove) {
+  if (playerMove == "rock") {
+    return "pentagon";
+  } else if (playerMove == "scissors") {
+    return "content_cut";
+  } else if (playerMove == "paper") {
+    return "drafts";
   }
 }
 
 function updateScore(result) {
   if (result == "win") {
     humanScore++;
-    // humanScoreSpan.textContent = humanScore;
     humanScoreDiv.children[humanScore - 1].classList.add("roundPointMark");
   } else if (result == "loss") {
     computerScore++;
-    // cpuScoreSpan.textContent = computerScore;
     cpuScoreDiv.children[computerScore - 1].classList.add("roundPointMark");
   } else if (result == "reset") {
     humanScore = 0;
@@ -93,11 +66,11 @@ function checkEndgame() {
     drawReset();
     // Add smilies
     if (humanScore == 5) {
-      humanResult.textContent = ":)";
-      cpuResult.textContent = ":(";
+      humanResult.textContent = "sentiment_satisfied";
+      cpuResult.textContent = "sentiment_dissatisfied";
     } else if (computerScore == 5) {
-      cpuResult.textContent = ":)";
-      humanResult.textContent = ":(";
+      cpuResult.textContent = "sentiment_satisfied";
+      humanResult.textContent = "sentiment_dissatisfied";
     }
   }
 }
@@ -110,19 +83,22 @@ function clearControlPanel() {
 
 function drawGame() {
   const rockButton = document.createElement("button");
-  rockButton.textContent = "Rock";
+  rockButton.textContent = "pentagon";
+  rockButton.classList.add("material-icons");
   rockButton.addEventListener("click", () => {
     updateScore(playRound(getComputerChoice(), "rock"));
   });
 
   const paperButton = document.createElement("button");
-  paperButton.textContent = "Paper";
+  paperButton.textContent = "drafts";
+  paperButton.classList.add("material-icons");
   paperButton.addEventListener("click", () => {
     updateScore(playRound(getComputerChoice(), "paper"));
   });
 
   const scissorsButton = document.createElement("button");
-  scissorsButton.textContent = "Scissors";
+  scissorsButton.textContent = "content_cut";
+  scissorsButton.classList.add("material-icons");
   scissorsButton.addEventListener("click", () => {
     updateScore(playRound(getComputerChoice(), "scissors"));
   });
@@ -134,13 +110,12 @@ function drawGame() {
 
 function drawReset() {
   const resetButton = document.createElement("button");
-  resetButton.textContent = "Reset";
+  resetButton.classList.add("material-icons");
+  resetButton.textContent = "replay";
   controlPanel.appendChild(resetButton);
   resetButton.addEventListener("click", () => {
     humanMove.textContent = "";
     cpuMove.textContent = "";
-    humanMove.className = "";
-    cpuMove.className = "";
     humanResult.textContent = "";
     cpuResult.textContent = "";
     clearControlPanel();
@@ -155,16 +130,16 @@ let humanScore = 0;
 const controlPanel = document.getElementById("controlPanel");
 
 const humanMove = document.getElementById("humanMove");
-const cpuMove = document.getElementById("cpuMove");
-const outcomeHeading = document.getElementById("outcomeHeading");
+humanMove.classList.add("material-icons");
 
-// const humanScoreSpan = document.getElementById("humanScoreSpan");
-// humanScoreSpan.textContent = humanScore;
-// const cpuScoreSpan = document.getElementById("cpuScoreSpan");
-// cpuScoreSpan.textContent = computerScore;
+const cpuMove = document.getElementById("cpuMove");
+cpuMove.classList.add("material-icons");
 
 const humanResult = document.getElementById("humanResult");
 const cpuResult = document.getElementById("cpuResult");
+humanResult.classList.add("material-icons");
+cpuResult.classList.add("material-icons");
+
 const humanScoreDiv = document.getElementById("humanScoreDiv");
 const cpuScoreDiv = document.getElementById("cpuScoreDiv");
 
