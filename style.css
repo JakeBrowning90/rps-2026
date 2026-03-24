@@ -64,12 +64,14 @@ main > * {
 #cpuScoreDiv {
   display: flex;
   border: 1px solid black;
+  gap: 5px;
 }
 
 #humanScoreDiv > div,
 #cpuScoreDiv > div {
-  height: 10px;
-  width: 10px;
+  height: 33%;
+  /* width: 10px; */
+  aspect-ratio: 1/1;
   border: 1px solid black;
   border-radius: 50%;
 }
